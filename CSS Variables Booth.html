@@ -1,0 +1,184 @@
+
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" />
+    <link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" />
+    <title>CSS Variables Booth</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Shadows+Into+Light+Two');
+
+        :root {
+            --primary-color: rgba(241,196,15 ,1);
+            --secondary-color: teal;
+
+            --slider: 0;
+        }
+
+        body {
+            margin: 0;
+            color: rgba(255,255,255,0.9);
+            background: url('http://bit.ly/2FiPrRA') 0 100%/340px no-repeat, var(--primary-color);
+            font-family: 'Shadows Into Light Two', cursive;
+        }
+
+        main.booth {
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+
+        /* Slider */
+        .slider,
+        .instructions {
+            position: absolute;
+            background: rgba(0,0,0,0.4);
+            padding: 1rem 2rem;
+            border-radius: 5px
+        }
+        .slider {
+            right: 10px;
+            top: 10px;
+        }
+        .slider > * {
+            display: block;
+        }
+
+
+        /* Instructions */
+        .instructions {
+            text-align: center;
+            bottom: 0;
+            background: initial;
+            color: black;
+        }
+
+        /* Color Boxes */
+        .color-boxes {
+            background: red;
+            box-shadow: 10px 10px 30px rgba(0,0,0,0.4);
+            border-radius: 0.3rem;
+
+            transform: perspective(500px) rotateY( calc(var(--slider) * 1deg));
+            transition: transform 0.3s
+        }
+
+
+        .color-box {
+            padding: 1rem 3.5rem;
+            margin-bottom: 0.5rem;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 0.3rem;
+            box-shadow: 10px 10px 30px rgba(0,0,0,0.4);
+        }
+
+        /* Handle colors for each color box */
+        .color-box:nth-child(1) {
+            background: var(--bg-1)
+        }
+        .color-box:nth-child(2) {
+            background: var(--bg-2)
+        }
+        .color-box:nth-child(3) {
+            background: var(--bg-3)
+        }
+        .color-box:nth-child(4) {
+            background: var(--bg-4)
+        }
+        .color-box:nth-child(5) {
+            background: var(--bg-5)
+        }
+        .color-box:nth-child(6) {
+            background: var(--bg-6)
+        }
+
+
+
+
+    </style>
+
+    <script>
+        window.console = window.console || function(t) {};
+    </script>
+
+
+
+    <script>
+        if (document.location.search.match(/type=embed/gi)) {
+            window.parent.postMessage("resize", "*");
+        }
+    </script>
+
+
+</head>
+
+<body translate="no" >
+
+<main class="booth">
+    <aside class="slider">
+        <label>Move this 👇 </label>
+        <input class="booth-slider" type="range" min="-50" max="50" value="-50" step="5"/>
+    </aside>
+
+    <section class="color-boxes">
+        <div class="color-box" id="1"><input value="red"/></div>
+        <div class="color-box" id="2"><input/></div>
+        <div class="color-box" id="3"><input/></div>
+        <div class="color-box" id="4"><input/></div>
+        <div class="color-box" id="5"><input/></div>
+        <div class="color-box" id="6"><input/></div>
+    </section>
+
+    <footer class="instructions">
+        👉🏻 Move the slider<br/>
+        👉🏻 Write any color in the red boxes
+    </footer>
+</main>
+<!--<script src="//static.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js"></script>-->
+
+
+
+
+<script >
+    const inputs = document.querySelectorAll('.color-box > input')
+    const root = document.documentElement
+    const range = document.querySelector('.booth-slider')
+
+    //as slider range's value changes, do something
+    range.addEventListener('input', handleSlider)
+
+    //as the value in the input changes, do something.
+    inputs.forEach(input => {
+        input.addEventListener('input', handleInputChange)
+    })
+
+    function handleInputChange (e) {
+        let value = e.target.value
+        let inputId = e.target.parentNode.id
+        let inputBg = `--bg-${inputId}`
+        root.style.setProperty(inputBg, value)
+    }
+
+    function handleSlider (e) {
+        let value = e.target.value
+        root.style.setProperty('--slider', value)
+    }
+    //# sourceURL=pen.js
+</script>
+
+
+
+
+
+
+</body>
+
+</html>
+ 
